@@ -6,7 +6,7 @@
 /*   By: njantsch <njantsch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 17:08:41 by njantsch          #+#    #+#             */
-/*   Updated: 2023/08/26 18:31:53 by njantsch         ###   ########.fr       */
+/*   Updated: 2023/08/28 18:17:50 by njantsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_data	*strct_init_data(char **av)
 	data->nbr_of_philos = ft_atoi(av[1]);
 	if (data->nbr_of_philos < 1)
 		return (write(2, "Error: too few philosophers\n", 29), NULL);
+	fork_init(data);
 	data->ttdie = ft_atoi(av[2]);
 	data->tteat = ft_atoi(av[3]);
 	data->ttsleep = ft_atoi(av[4]);
@@ -29,6 +30,7 @@ t_data	*strct_init_data(char **av)
 		data->eatcount = ft_atoi(av[5]);
 	else
 		data->eatcount = 0;
+	gettimeofday(&data->time_of_birth, NULL);
 	if (data->eatcount < 0)
 		return (write(2, "Error: philos can't eat themselves\n", 36), NULL);
 	strct_init_philo(data);
@@ -50,8 +52,6 @@ void	strct_init_philo(t_data *data)
 			if (data->philo == NULL)
 				return ((void)write(2, "Error: philo: malloc failed\n", 29));
 			data->philo->philosopher = NULL;
-			data->philo->time_of_birth = 0;
-			data->philo->forks = 1;
 			data->philo->philo_nbr = 1;
 			data->philo->time_of_last_meal = 0;
 			data->philo->prev = NULL;
@@ -96,4 +96,17 @@ int	ft_atoi(const char *str)
 		str++;
 	}
 	return (res * sign);
+}
+
+void	fork_init(t_data *data)
+{
+	int	i;
+
+	i = 1;
+	data->forks = malloc((data->nbr_of_philos + 1) * sizeof(int));
+	while (i <= data->nbr_of_philos)
+	{
+		data->forks[i] = 1;
+		i++;
+	}
 }
