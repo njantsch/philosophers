@@ -1,8 +1,8 @@
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 NAME = philo
 
-SRCS = ./main.c ./utils/utils.c ./utils/lst_utils.c ./utils/routine_utils.c ./time.c
+SRCS = ./main.c ./utils/utils.c ./utils/lst_utils.c ./routines.c ./time.c
 
 OBJS = $(SRCS:.c=.o)
 

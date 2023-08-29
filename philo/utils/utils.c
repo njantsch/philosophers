@@ -6,7 +6,7 @@
 /*   By: njantsch <njantsch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 17:08:41 by njantsch          #+#    #+#             */
-/*   Updated: 2023/08/28 18:17:50 by njantsch         ###   ########.fr       */
+/*   Updated: 2023/08/29 19:18:55 by njantsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ t_data	*strct_init_data(char **av)
 	strct_init_philo(data);
 	if (data->philo == NULL)
 		return (write(2, "Error: philo: strct_init_philo\n", 29), NULL);
+	pthread_mutex_init(&data->mutex, NULL);
+	pthread_mutex_init(&data->write_mutex, NULL);
 	return (data);
 }
 
@@ -54,6 +56,7 @@ void	strct_init_philo(t_data *data)
 			data->philo->philosopher = NULL;
 			data->philo->philo_nbr = 1;
 			data->philo->time_of_last_meal = 0;
+			data->philo->times_eaten = 0;
 			data->philo->prev = NULL;
 			data->philo->next = NULL;
 		}

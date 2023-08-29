@@ -6,7 +6,7 @@
 /*   By: njantsch <njantsch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 16:09:25 by njantsch          #+#    #+#             */
-/*   Updated: 2023/08/28 18:14:45 by njantsch         ###   ########.fr       */
+/*   Updated: 2023/08/29 20:00:26 by njantsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct data
 	struct timeval	time_of_birth;
 	struct philos	*philo;
 	pthread_mutex_t	mutex;
+	pthread_mutex_t	write_mutex;
 }	t_data;
 
 typedef struct philos
@@ -55,14 +56,15 @@ void	fork_init(t_data *data);
 // lst_utils.c
 void	free_lst_philo(t_philos *lst);
 void	lst_add_new_philo(t_philos *philo);
-
-// routine_utils.c
-void	take_fork_routine(t_data *curr);
+t_data	*reset_lst_offset(t_data *lst);
 
 // time.c
 long	get_time_in_ms(struct timeval time_of_birth);
 void	msleep(int time);
 
+// routines.c
+void	take_fork_routine(t_data *curr, t_philos *philo);
+int		eating_routine(t_data *curr, t_philos *philo);
 void	*routine(void *arg);
 
 #endif
