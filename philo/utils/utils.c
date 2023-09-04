@@ -6,7 +6,7 @@
 /*   By: njantsch <njantsch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 17:08:41 by njantsch          #+#    #+#             */
-/*   Updated: 2023/08/29 19:18:55 by njantsch         ###   ########.fr       */
+/*   Updated: 2023/09/04 19:23:03 by njantsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ t_data	*strct_init_data(char **av)
 	data->nbr_of_philos = ft_atoi(av[1]);
 	if (data->nbr_of_philos < 1)
 		return (write(2, "Error: too few philosophers\n", 29), NULL);
-	fork_init(data);
 	data->ttdie = ft_atoi(av[2]);
 	data->tteat = ft_atoi(av[3]);
 	data->ttsleep = ft_atoi(av[4]);
@@ -36,8 +35,7 @@ t_data	*strct_init_data(char **av)
 	strct_init_philo(data);
 	if (data->philo == NULL)
 		return (write(2, "Error: philo: strct_init_philo\n", 29), NULL);
-	pthread_mutex_init(&data->mutex, NULL);
-	pthread_mutex_init(&data->write_mutex, NULL);
+	mutex_init(data);
 	return (data);
 }
 
@@ -99,17 +97,4 @@ int	ft_atoi(const char *str)
 		str++;
 	}
 	return (res * sign);
-}
-
-void	fork_init(t_data *data)
-{
-	int	i;
-
-	i = 1;
-	data->forks = malloc((data->nbr_of_philos + 1) * sizeof(int));
-	while (i <= data->nbr_of_philos)
-	{
-		data->forks[i] = 1;
-		i++;
-	}
 }

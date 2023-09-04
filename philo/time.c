@@ -6,7 +6,7 @@
 /*   By: njantsch <njantsch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 20:11:05 by njantsch          #+#    #+#             */
-/*   Updated: 2023/08/28 17:15:48 by njantsch         ###   ########.fr       */
+/*   Updated: 2023/09/04 12:52:40 by njantsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,12 @@ long	get_time_in_ms(struct timeval time_of_birth)
 
 void	msleep(int time)
 {
-	time *= CONV;
-	usleep(time);
+	long			curr_time;
+	struct timeval	zero_time;
+
+	zero_time.tv_sec = 0;
+	zero_time.tv_usec = 0;
+	curr_time = get_time_in_ms(zero_time);
+	while ((get_time_in_ms(zero_time) - curr_time) < time)
+		usleep(500);
 }

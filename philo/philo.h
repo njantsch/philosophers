@@ -6,7 +6,7 @@
 /*   By: njantsch <njantsch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 16:09:25 by njantsch          #+#    #+#             */
-/*   Updated: 2023/08/29 20:00:26 by njantsch         ###   ########.fr       */
+/*   Updated: 2023/09/04 19:31:23 by njantsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@ typedef struct data
 	int				ttsleep;
 	int				ttdie;
 	int				eatcount;
-	int				*forks;
 	struct timeval	time_of_birth;
 	struct philos	*philo;
 	pthread_mutex_t	mutex;
-	pthread_mutex_t	write_mutex;
+	pthread_mutex_t	mutex2;
+	pthread_mutex_t	forks[200];
 }	t_data;
 
 typedef struct philos
@@ -41,7 +41,7 @@ typedef struct philos
 	pthread_t		philosopher;
 	int				philo_nbr;
 	int				time_of_last_meal;
-	int				times_eaten;
+	long			times_eaten;
 	struct philos	*prev;
 	struct philos	*next;
 }	t_philos;
@@ -51,12 +51,10 @@ void	strct_init_philo(t_data *data);
 t_data	*strct_init_data(char **av);
 int		ft_strlen_matrix(char **matrix);
 int		ft_atoi(const char *str);
-void	fork_init(t_data *data);
 
 // lst_utils.c
 void	free_lst_philo(t_philos *lst);
 void	lst_add_new_philo(t_philos *philo);
-t_data	*reset_lst_offset(t_data *lst);
 
 // time.c
 long	get_time_in_ms(struct timeval time_of_birth);
@@ -66,5 +64,8 @@ void	msleep(int time);
 void	take_fork_routine(t_data *curr, t_philos *philo);
 int		eating_routine(t_data *curr, t_philos *philo);
 void	*routine(void *arg);
+
+void	mutex_init(t_data *data);
+void	mutex_destroy(t_data *data);
 
 #endif

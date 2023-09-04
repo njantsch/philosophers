@@ -6,11 +6,39 @@
 /*   By: njantsch <njantsch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 16:13:43 by njantsch          #+#    #+#             */
-/*   Updated: 2023/08/29 19:44:26 by njantsch         ###   ########.fr       */
+/*   Updated: 2023/09/04 19:27:51 by njantsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	mutex_init(t_data *data)
+{
+	int	i;
+
+	i = 1;
+	pthread_mutex_init(&data->mutex, NULL);
+	pthread_mutex_init(&data->mutex2, NULL);
+	while (i <= data->nbr_of_philos)
+	{
+		pthread_mutex_init(&data->forks[i], NULL);
+		i++;
+	}
+}
+
+void	mutex_destroy(t_data *data)
+{
+	int	i;
+
+	i = 1;
+	pthread_mutex_destroy(&data->mutex);
+	pthread_mutex_destroy(&data->mutex2);
+	while (i <= data->nbr_of_philos)
+	{
+		pthread_mutex_destroy(&data->forks[i]);
+		i++;
+	}
+}
 
 void	create_threads(t_data *data)
 {
@@ -47,10 +75,8 @@ int	main(int ac, char **av)
 	if (data == NULL)
 		return (1);
 	create_threads(data);
-	pthread_mutex_destroy(&data->mutex);
-	pthread_mutex_destroy(&data->write_mutex);
+	mutex_destroy(data);
 	free_lst_philo(data->philo);
-	free(data->forks);
 	free(data);
 	return (0);
 }

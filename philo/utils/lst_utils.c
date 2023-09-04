@@ -6,7 +6,7 @@
 /*   By: njantsch <njantsch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/26 14:39:29 by njantsch          #+#    #+#             */
-/*   Updated: 2023/08/29 19:18:29 by njantsch         ###   ########.fr       */
+/*   Updated: 2023/09/04 19:23:15 by njantsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,15 +52,3 @@ void	free_lst_philo(t_philos *lst)
 		free(tmp);
 	}
 }
-
-// t_data	*reset_lst_offset(t_data *lst)
-// {
-// 	t_data	*curr;
-// 	int		i;
-
-// 	i = lst->nbr_of_philos;
-// 	curr = lst;
-// 	while (i > 1)
-// 		curr->philo = curr->philo->prev;
-// 	return (curr);
-// }
