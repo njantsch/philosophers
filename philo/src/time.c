@@ -6,11 +6,11 @@
 /*   By: njantsch <njantsch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 20:11:05 by njantsch          #+#    #+#             */
-/*   Updated: 2023/09/04 12:52:40 by njantsch         ###   ########.fr       */
+/*   Updated: 2023/09/05 12:15:46 by njantsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../philo.h"
 
 long	get_time_in_ms(struct timeval time_of_birth)
 {

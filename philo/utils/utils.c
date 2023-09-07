@@ -6,7 +6,7 @@
 /*   By: njantsch <njantsch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 17:08:41 by njantsch          #+#    #+#             */
-/*   Updated: 2023/09/04 19:23:03 by njantsch         ###   ########.fr       */
+/*   Updated: 2023/09/07 21:52:10 by njantsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,18 @@ t_data	*strct_init_data(char **av)
 	if (!data)
 		return (write(2, "Error: data: malloc failed\n", 30), NULL);
 	data->nbr_of_philos = ft_atoi(av[1]);
-	if (data->nbr_of_philos < 1)
-		return (write(2, "Error: too few philosophers\n", 29), NULL);
 	data->ttdie = ft_atoi(av[2]);
 	data->tteat = ft_atoi(av[3]);
 	data->ttsleep = ft_atoi(av[4]);
+	data->death_count = 0;
 	if (av[5] != NULL)
 		data->eatcount = ft_atoi(av[5]);
 	else
 		data->eatcount = 0;
+	data->forks = malloc(sizeof(pthread_mutex_t) * data->nbr_of_philos);
+	if (!data->forks)
+		return (write(2, "Error: forks: malloc failed\n", 28), NULL);
 	gettimeofday(&data->time_of_birth, NULL);
-	if (data->eatcount < 0)
-		return (write(2, "Error: philos can't eat themselves\n", 36), NULL);
 	strct_init_philo(data);
 	if (data->philo == NULL)
 		return (write(2, "Error: philo: strct_init_philo\n", 29), NULL);
@@ -55,7 +55,6 @@ void	strct_init_philo(t_data *data)
 			data->philo->philo_nbr = 1;
 			data->philo->time_of_last_meal = 0;
 			data->philo->times_eaten = 0;
-			data->philo->prev = NULL;
 			data->philo->next = NULL;
 		}
 		else
@@ -85,7 +84,7 @@ int	ft_atoi(const char *str)
 	{
 		str++;
 	}
-	if (*str == '-' || *str == '+')
+	while (*str == '-' || *str == '+')
 	{
 		if (*str == '-')
 			sign *= -1;
