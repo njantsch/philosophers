@@ -6,7 +6,7 @@
 /*   By: njantsch <njantsch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 16:29:08 by njantsch          #+#    #+#             */
-/*   Updated: 2023/09/07 21:49:12 by njantsch         ###   ########.fr       */
+/*   Updated: 2023/09/08 15:42:52 by njantsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	print_if_alive(t_data *data, t_philos *philo, char *str)
 
 int	check_death(t_data *curr, t_philos *philos)
 {
+	pthread_mutex_lock(&curr->time_mutex);
 	if (get_time_in_ms(curr->time_of_birth) - philos->time_of_last_meal
 		> curr->ttdie)
 	{
@@ -47,5 +48,6 @@ int	check_death(t_data *curr, t_philos *philos)
 		pthread_mutex_unlock(&curr->time_mutex);
 		return (-1);
 	}
+	pthread_mutex_unlock(&curr->time_mutex);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: njantsch <njantsch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 17:08:41 by njantsch          #+#    #+#             */
-/*   Updated: 2023/09/07 21:52:10 by njantsch         ###   ########.fr       */
+/*   Updated: 2023/09/08 17:47:39 by njantsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_data	*strct_init_data(char **av)
 
 	data = malloc(sizeof(t_data));
 	if (!data)
-		return (write(2, "Error: data: malloc failed\n", 30), NULL);
+		return (write(2, "Error: data: malloc failed\n", 27), NULL);
 	data->nbr_of_philos = ft_atoi(av[1]);
 	data->ttdie = ft_atoi(av[2]);
 	data->tteat = ft_atoi(av[3]);
@@ -32,6 +32,7 @@ t_data	*strct_init_data(char **av)
 	if (!data->forks)
 		return (write(2, "Error: forks: malloc failed\n", 28), NULL);
 	gettimeofday(&data->time_of_birth, NULL);
+	data->philo = NULL;
 	strct_init_philo(data);
 	if (data->philo == NULL)
 		return (write(2, "Error: philo: strct_init_philo\n", 29), NULL);
@@ -51,7 +52,6 @@ void	strct_init_philo(t_data *data)
 			data->philo = malloc(sizeof(t_philos));
 			if (data->philo == NULL)
 				return ((void)write(2, "Error: philo: malloc failed\n", 29));
-			data->philo->philosopher = NULL;
 			data->philo->philo_nbr = 1;
 			data->philo->time_of_last_meal = 0;
 			data->philo->times_eaten = 0;

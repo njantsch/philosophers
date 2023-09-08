@@ -6,7 +6,7 @@
 /*   By: njantsch <njantsch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 16:09:25 by njantsch          #+#    #+#             */
-/*   Updated: 2023/09/07 21:49:21 by njantsch         ###   ########.fr       */
+/*   Updated: 2023/09/08 16:55:30 by njantsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct data
 	pthread_mutex_t	print_mutex;
 	pthread_mutex_t	death_mutex;
 	pthread_mutex_t	time_mutex;
+	pthread_mutex_t	philo_mutex;
 	pthread_mutex_t	*forks;
 }	t_data;
 

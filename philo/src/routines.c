@@ -6,7 +6,7 @@
 /*   By: njantsch <njantsch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:10:46 by njantsch          #+#    #+#             */
-/*   Updated: 2023/09/07 21:58:23 by njantsch         ###   ########.fr       */
+/*   Updated: 2023/09/08 17:23:17 by njantsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@ void	*death_routine(void *arg)
 	t_philos	*reset;
 
 	curr = (t_data *)arg;
+	pthread_mutex_lock(&curr->philo_mutex);
 	reset = curr->philo;
+	pthread_mutex_unlock(&curr->philo_mutex);
 	philos = reset;
 	while (1)
 	{
@@ -30,10 +32,8 @@ void	*death_routine(void *arg)
 		if (philos->times_eaten == curr->eatcount && curr->eatcount > 0)
 			return (pthread_mutex_unlock(&curr->time_mutex), NULL);
 		pthread_mutex_unlock(&curr->time_mutex);
-		pthread_mutex_lock(&curr->time_mutex);
 		if (check_death(curr, philos) == -1)
 			break ;
-		pthread_mutex_unlock(&curr->time_mutex);
 		if (curr->nbr_of_philos > 1)
 			philos = philos->next;
 	}
@@ -84,8 +84,10 @@ int	eating_routine(t_data *curr, t_philos *philo)
 		pthread_mutex_unlock(&curr->forks[philo->philo_nbr
 			% curr->nbr_of_philos]);
 	}
+	pthread_mutex_lock(&curr->time_mutex);
 	if (philo->times_eaten >= curr->eatcount && curr->eatcount > 0)
-		return (-1);
+		return (pthread_mutex_unlock(&curr->time_mutex), -1);
+	pthread_mutex_unlock(&curr->time_mutex);
 	return (0);
 }
 
@@ -95,7 +97,9 @@ void	*routine(void *arg)
 	t_philos	*philo;
 
 	curr = (t_data *)arg;
+	pthread_mutex_lock(&curr->philo_mutex);
 	philo = curr->philo;
+	pthread_mutex_unlock(&curr->philo_mutex);
 	while (1)
 	{
 		if (eating_routine(curr, philo) == -1)
