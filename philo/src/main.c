@@ -6,7 +6,7 @@
 /*   By: njantsch <njantsch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 16:13:43 by njantsch          #+#    #+#             */
-/*   Updated: 2023/09/08 18:06:34 by njantsch         ###   ########.fr       */
+/*   Updated: 2023/09/11 12:18:11 by njantsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	create_threads(t_data *data)
 int	main(int ac, char **av)
 {
 	t_data		*data;
-	t_philos	*philos;
+	t_philos	*reset;
 
 	if (ac < 5 || ac > 6)
 		return (write(2, "Error: wrong amount of arguments\n", 33), 1);
@@ -102,10 +102,10 @@ int	main(int ac, char **av)
 	data = strct_init_data(av);
 	if (data == NULL)
 		return (1);
-	philos = data->philo;
+	reset = data->philo;
 	create_threads(data);
 	mutex_destroy(data);
-	free_lst_philo(philos);
+	free_lst_philo(reset);
 	free(data->forks);
 	free(data);
 	return (0);
